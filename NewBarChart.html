@@ -53,20 +53,20 @@
     d3.csv("FoodDataFinalS.csv", convertToNumber, function(error, data){
 
         //optionally sort data
-        data.sort(function(a,b){ return b.value - a.value; });
+        data.sort(function(b,a){ return b.rank - a.rank; });
 
         //set the domains for x and y functions here
         x.domain(data.map(function(d){ return d.Code; }));
-        y.domain([0, d3.max( data.map(function(d){ return d.value; }) )]);
+        y.domain([0, d3.max( data.map(function(d){ return d.rank; }) )]);
 
         chart.selectAll(".bar")
             .data(data)
             .enter()
             .append("rect")
             .attr("x", function(d){ return x(d.Code); })
-            .attr("y", function(d){ return y(d.value); })
+            .attr("y", function(d){ return y(d.rank); })
             .attr("width", function(d){ return x.rangeBand(); })
-            .attr("height", function(d){ return height - y(d.value); })
+            .attr("height", function(d){ return height - y(d.rank); })
             .attr("class", "bar");
 
         //setting the axes
@@ -86,7 +86,7 @@
     });
 
     function convertToNumber(d){
-        d.value = +d.value; 
+        d.rank = +d.rank; 
         return d;
     }
 
