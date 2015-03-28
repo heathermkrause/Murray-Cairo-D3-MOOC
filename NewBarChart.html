@@ -5,7 +5,7 @@
     <style>
         .axis text{
           font-family: Helvetica, Arial, sans-serif;
-          font-size: 9px;
+          font-size: 8px;
           text-anchor: end;
         }
         .axis path{
@@ -15,7 +15,7 @@
         }
         .bar{
             stroke: none;
-            fill: steelblue;
+            fill: orange;
         }
     </style>
     <script src="http://d3js.org/d3.v3.min.js" charset="utf-8"></script>
@@ -24,9 +24,9 @@
 
 <script>
 
-    var margin = {top:0, right:0, bottom:70, left:30},
-        width  = 900 - margin.left - margin.right,
-        height = 700 - margin.top  - margin.bottom;
+    var margin = {top:10, right:0, bottom:30, left:30},
+        width  = 1200 - margin.left - margin.right,
+        height = 500 - margin.top  - margin.bottom;
 
     var svg = d3.select("body")
         .append("svg")
@@ -56,14 +56,14 @@
         data.sort(function(a,b){ return b.value - a.value; });
 
         //set the domains for x and y functions here
-        x.domain(data.map(function(d){ return d.Country; }));
+        x.domain(data.map(function(d){ return d.Code; }));
         y.domain([0, d3.max( data.map(function(d){ return d.value; }) )]);
 
         chart.selectAll(".bar")
             .data(data)
             .enter()
             .append("rect")
-            .attr("x", function(d){ return x(d.Country); })
+            .attr("x", function(d){ return x(d.Code); })
             .attr("y", function(d){ return y(d.value); })
             .attr("width", function(d){ return x.rangeBand(); })
             .attr("height", function(d){ return height - y(d.value); })
