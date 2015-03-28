@@ -17,12 +17,20 @@
             stroke: none;
             fill: orange;
         }
+
+        .graph-svg-component {
+    background-color: AliceBlue;
+}
     </style>
     <script src="http://d3js.org/d3.v3.min.js" charset="utf-8"></script>
 </head>
 <body>
 
+  
+
 <script>
+
+
 
     var margin = {top:10, right:0, bottom:30, left:30},
         width  = 1200 - margin.left - margin.right,
@@ -30,6 +38,7 @@
 
     var svg = d3.select("body")
         .append("svg")
+        .attr("class", "graph-svg-component")
         .attr("width", width + margin.left + margin.right)
         .attr("height", height + margin.top + margin.bottom);
 
