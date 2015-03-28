@@ -18,20 +18,6 @@
 			
 			
 
-							var dataset;
-
-							//Load in contents of CSV file
-			d3.csv("FoodDataFinalS.csv", function(data) {
-
-				dataset = data;
-
-				//Now CSV contents have been transformed into
-				//an array of JSON objects.
-
-				//Log 'data' to the console, for verification.
-				console.log(data);
-
-			});
 			
 			//Create SVG element
 			var svg = d3.select("body")
@@ -39,21 +25,32 @@
 						.attr("width", w)
 						.attr("height", h);
 
+
+							//Load in contents of CSV file
+			d3.csv("FoodDataFinalS.csv", function(data) {
+
+				data.forEach(function(d) {
+					
+				console.log(data);
+
 			svg.selectAll("rect")
-			   .data(dataset)
+				.data(data.value)
 			   .enter()
 			   .append("rect")
 			   .attr("x", function(d, i) {
 			   		return i * (w / +d.value);
 			   })
 			   .attr("y", function(d) {
-			   		return h - (d * 4);
+			   		return h - (+d.value * 4);
 			   })
 			   .attr("width", w / +d.value- barPadding)
 			   .attr("height", function(d) {
-			   		return d * 4;
+			   		return +d.value * 4;
 			   })
-			   .attr("fill", "teal");
+			   .attr("fill", "purple");
+
+			 });
+				 });
 			
 		</script>
 	</body>
