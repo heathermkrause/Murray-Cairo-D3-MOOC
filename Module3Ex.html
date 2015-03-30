@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html lang="en">
+	<head>
+		<meta charset="utf-8">
+		<title>Adding Tooltips</title>
+		<script type="text/javascript" src="../d3.v3.js"></script>
+		<style type="text/css">
+			
+			body {
+				background-color: white;
+			}
+
+			svg {
+				background-color: lightyellow;
+			}
+
+			.rect{
+            stroke: none;
+            fill: orange;
+        }
+
+		
+
+		</style>
+	</head>
+	<body>
+
+		<script type="text/javascript">		
+
+			d3.select("body")
+				.append("p")
+				.text("Global Food Index Scores");
+
+			var svg = d3.select("body")
+						.append("svg")
+						.attr("width", 200)
+						.attr("height", 1250);
+
+
+
+			d3.csv("FoodDataFinal.csv", function(data) {
+
+				data.sort(function(a, b) {
+					return d3.descending(a.ScoreReversedHighGood, b.ScoreReversedHighGood);
+
+				
+				});
+
+				var rects = svg.selectAll("rect")
+								.data(data)
+								.enter()
+								.append("rect");
+
+				rects.attr("x", 0)
+					.attr("y", function(d, i) {
+						return i * 10;
+					})
+					.attr("width", function(d) {
+						return d.ScoreReversedHighGood * 2;
+					})
+					.attr("height", 8)
+					.attr("class", "rect")
+					.append("title")
+					.text(function(d) {
+						return d.Country + "'s food index score is " + d.ScoreReversedHighGood;
+					});
+
+			});
+
+
+		</script>
+
+	</body>
+</html>

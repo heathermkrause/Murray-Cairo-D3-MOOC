@@ -12,6 +12,8 @@
   text-anchor: end;
 }
 
+
+
 </style>
 <svg class="chart"></svg>
 <script src="http://d3js.org/d3.v3.min.js"></script>
@@ -22,7 +24,7 @@ var margin = {top: 20, right: 20, bottom: 70, left: 40},
     barHeight = 20;
 
 var x = d3.scale.linear()
-    .range([0, width]);
+    .range([10, width]);
 
 var chart = d3.select(".chart")
     .attr("width", width);
