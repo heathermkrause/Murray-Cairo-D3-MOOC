@@ -2,22 +2,25 @@
 <html lang="en">
 	<head>
 		<meta charset="utf-8">
-		<title>Adding Tooltips</title>
+		<title>Global Food Index Bar Chart</title>
 		<script type="text/javascript" src="../d3.v3.js"></script>
 		<style type="text/css">
 			
+			p    {color:#d95f0e}
 			body {
 				background-color: white;
 			}
 
 			svg {
-				background-color: lightyellow;
+				background-color: #ffffed;
 			}
 
 			.rect{
-            stroke: none;
-            fill: orange;
+            stroke: #feb24c;
+            fill: #fec44f;
         }
+
+
 
 		
 
@@ -29,12 +32,13 @@
 
 			d3.select("body")
 				.append("p")
-				.text("Global Food Index Scores");
+				.text("Global Food Index Scores by Country")
+				;
 
 			var svg = d3.select("body")
 						.append("svg")
 						.attr("width", 200)
-						.attr("height", 1250);
+						.attr("height", 1420);
 
 
 
@@ -53,7 +57,7 @@
 
 				rects.attr("x", 0)
 					.attr("y", function(d, i) {
-						return i * 10;
+						return i * 11;
 					})
 					.attr("width", function(d) {
 						return d.ScoreReversedHighGood * 2;
