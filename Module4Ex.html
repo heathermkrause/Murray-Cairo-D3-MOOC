@@ -10,11 +10,16 @@
 			body {
 				background-color: white;
 				font-family: Helvetica, Arial, sans-serif;
+				font-size: 8px;
 			}
 
 			svg {
 				background-color: #ffffed;
 			}
+
+			 .headline{
+            font-size: 18px;
+        }
 
 		</style>
 	</head>
@@ -25,12 +30,13 @@
 			d3.select("body")
 				.append("p")
 				.text("Global Food Index Scores by Country")
+				.attr("class", "headline")
 				;
 
 
 			var w = 700;
 			var h = 1600;
-			var padding = [ 20, 10, 30, 200];  //Top, right, bottom, left
+			var padding = [ 20, 10, 30, 100];  //Top, right, bottom, left
 
 			
 
@@ -48,8 +54,7 @@
 
 			var yAxis = d3.svg.axis()
 							.scale(heightScale)
-							.orient("left")
-							;
+							.orient("left");
 
 			var svg = d3.select("body")
 						.append("svg")
