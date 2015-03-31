@@ -76,7 +76,8 @@
             .attr("y", function(d){ return y(d.rank); })
             .attr("width", function(d){ return x.rangeBand(); })
             .attr("height", function(d){ return height - y(d.rank); })
-            .attr("class", "bar");
+            .attr("class", "bar")
+            .attr("font-size", "8px");
 
         //setting the axes
         svg.append("g")

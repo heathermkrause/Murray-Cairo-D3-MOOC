@@ -3,7 +3,7 @@
 	<head>
 		<meta charset="utf-8">
 		<title>Global Food Index Bar Chart</title>
-		<script type="text/javascript" src="../d3.v3.js"></script>
+		<script type="text/javascript" src="http://d3js.org/d3.v3.min.js"></script>
 		<style type="text/css">
 			
 			p    {color:#d95f0e}
@@ -15,15 +15,6 @@
 			svg {
 				background-color: #ffffed;
 			}
-
-			.rect{
-            stroke: #feb24c;
-            fill: #fec44f;
-        }
-
-
-
-		
 
 		</style>
 	</head>
@@ -38,8 +29,8 @@
 
 
 			var w = 700;
-			var h = 600;
-			var padding = [ 20, 10, 30, 120 ];  //Top, right, bottom, left
+			var h = 1600;
+			var padding = [ 20, 10, 30, 200];  //Top, right, bottom, left
 
 			
 
@@ -57,7 +48,8 @@
 
 			var yAxis = d3.svg.axis()
 							.scale(heightScale)
-							.orient("left");
+							.orient("left")
+							;
 
 			var svg = d3.select("body")
 						.append("svg")
@@ -91,7 +83,7 @@
 						return widthScale(d.ScoreReversedHighGood);
 					})
 					.attr("height", heightScale.rangeBand())
-					.attr("fill", "steelblue")
+					.attr("fill", "orange")
 					.append("title")
 					.text(function(d) {
 						return d.Country + "'s life satisfaction score is " + d.ScoreReversedHighGood;
