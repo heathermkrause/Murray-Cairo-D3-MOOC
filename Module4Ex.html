@@ -6,7 +6,6 @@
 		<script type="text/javascript" src="http://d3js.org/d3.v3.min.js"></script>
 		<style type="text/css">
 			
-			p    {color:#d95f0e}
 			body {
 				background-color: white;
 				font-family: Helvetica, Arial, sans-serif;
@@ -20,6 +19,35 @@
 			 .headline{
             font-size: 18px;
         }
+
+      
+
+        p {
+				font-size: 14px;
+				margin: 10px 0 0 0;
+				color:#d95f0e;
+			}
+
+			rect:hover {
+				fill: orange;
+			}
+			
+			.axis path,
+			.axis line {
+				fill: none;
+				stroke: black;
+				shape-rendering: crispEdges;
+			}
+			
+			.axis text {
+				font-family: sans-serif;
+				font-size: 11px;
+			}
+
+			.y.axis path,
+			.y.axis line {
+				opacity: 0;
+			}
 
 		</style>
 	</head>
@@ -36,7 +64,7 @@
 
 			var w = 700;
 			var h = 1600;
-			var padding = [ 20, 10, 30, 100];  //Top, right, bottom, left
+			var padding = [ 5, 10, 20, 100];  //Top, right, bottom, left
 
 			
 
@@ -44,7 +72,7 @@
 								.range([ 0, w - padding[1] - padding[3] ]);
 			
 			var heightScale = d3.scale.ordinal()
-								.rangeRoundBands([ padding[0], h - padding[2] ], 0.1);
+								.rangeRoundBands([ padding[0], h - padding[2] ], 0.15);
 
 
 
@@ -91,18 +119,20 @@
 					.attr("fill", "orange")
 					.append("title")
 					.text(function(d) {
-						return d.Country + "'s life satisfaction score is " + d.ScoreReversedHighGood;
+						return d.Country + "'s Food Index score is " + d.ScoreReversedHighGood;
 					});
 
 				svg.append("g")
 					.attr("class", "x axis")
 					.attr("transform", "translate(" + padding[3] + "," + (h - padding[2]) + ")")
-					.call(xAxis);
+					.call(xAxis)
+					.attr("class", "axispath");
 
 				svg.append("g")
 					.attr("class", "y axis")
 					.attr("transform", "translate(" + padding[3] + ",0)")
-					.call(yAxis);
+					.call(yAxis)
+					.attr("class", "axispath");
 
 			});
 

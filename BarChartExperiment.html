@@ -1,17 +1,21 @@
 <html>
 <head>
     <meta charset="utf-8">
-    <title>Example chart</title>
+    <title>Global Food Index</title>
     <style>
         .axis text{
           font-family: Arial, sans-serif;
           font-size: 8px;
           text-anchor: end;
+          fill:gray;
+          stroke:none;
         }
-        .axis path{
+        .axis path,
+        .axis line {
           fill:none;
           stroke:gray;
-          stroke-width: 1.5px;
+          stroke-width: 1.5px
+          shape-rendering: crispEdges;;
         }
         .bar{
             stroke: none;
@@ -19,7 +23,7 @@
         }
 
         .graph-svg-component {
-    background-color: #ffffb2;
+    background-color: white;
 }
     </style>
     <script src="http://d3js.org/d3.v3.min.js" charset="utf-8"></script>
@@ -30,12 +34,9 @@
 
 <script>
 
-    var padding = [ 5, 10, 5, 100];  //Top, right, bottom, left
 
-    var w = 700;
-    var h = 1600;
 
-    var margin = {top:10, right:0, bottom:30, left:30},
+    var margin = {top:60, right:0, bottom:100, left:30},
         width  = 1200 - margin.left - margin.right,
         height = 500 - margin.top  - margin.bottom;
 
@@ -48,11 +49,11 @@
     var chart = svg.append("g")
         .attr("transform", "translate(" + margin.left + ", " + margin.top + ")");
 
-    var x = d3.scale.linear()
-            .range([ 0, w - padding[1] - padding[3] ]);
+    var x = d3.scale.ordinal()
+        .rangeRoundBands([0, width], .1);//leave off domain
 
-    var y = d3.scale.ordinal()
-            .rangeRoundBands([ padding[0], h - padding[2] ], 0.1);
+    var y = d3.scale.linear()
+        .range([height, 0]);//leave off domain
 
     var xAxis = d3.svg.axis()
         .scale(x)
@@ -62,33 +63,24 @@
         .scale(y)
         .orient("left");
 
-
-
     d3.csv("FoodDataFinal.csv", convertToNumber, function(error, data){
 
         //optionally sort data
-        data.sort(function(b,a){ return b.ScoreReversedHighGood - a.ScoreReversedHighGood; });
-
-        x.domain([ 0, d3.max(data, function(d) {
-                    return +d.ScoreReversedHighGood;
-                }) ]);
-
-        y.domain(data.map(function(d) { return d.Country; } ));
+        data.sort(function(a,b){ return b.ScoreReversedHighGood - a.ScoreReversedHighGood; });
 
         //set the domains for x and y functions here
-       
+        x.domain(data.map(function(d){ return d.Country; }));
+        y.domain([0, d3.max( data.map(function(d){ return d.ScoreReversedHighGood; }) )]);
 
-        chart.selectAll("rect")
+        chart.selectAll(".bar")
             .data(data)
             .enter()
             .append("rect")
-            .attr("x", padding[3])
+            .attr("x", function(d){ return x(d.Country); })
             .attr("y", function(d){ return y(d.ScoreReversedHighGood); })
-            .attr("height", y.rangeBand())
-           .attr("width", function(d) {
-                        return x(d.ScoreReversedHighGood)
-            .attr("class", "bar")
-            .attr("font-size", "8px");
+            .attr("width", function(d){ return x.rangeBand(); })
+            .attr("height", function(d){ return height - y(d.ScoreReversedHighGood); })
+            .attr("class", "bar");
 
         //setting the axes
         svg.append("g")
@@ -107,7 +99,6 @@
     });
 
     function convertToNumber(d){
-        d.rank = +d.rank; 
         d.ScoreReversedHighGood = +d.ScoreReversedHighGood; 
         return d;
     }
@@ -115,4 +106,3 @@
 </script>
 </body>
 </html>
-
