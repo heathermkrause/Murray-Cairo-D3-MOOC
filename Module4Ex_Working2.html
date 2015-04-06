@@ -45,6 +45,11 @@
 	</head>
 	<body>
 
+		<form>
+  			<label><input type="radio" name="mode" value="multiples" checked> Display Best Attribute</label>
+  			<label><input type="radio" name="mode" value="stacked"> Display Worst Attribute</label>
+			</form>
+
 		<script type="text/javascript">		
 
 			d3.select("body")
@@ -129,6 +134,16 @@
 					.attr("transform", "translate(" + 100 + ",0)")
 					.call(yAxis)
 					;
+
+					var timeout = setTimeout(function() {
+    			d3.select("input[value=\"stacked\"]").property("checked", true).each(change);
+  					}, 2000);
+
+  					function change() {
+    				clearTimeout(timeout);
+    				if (this.value === "multiples") transitionMultiples();
+    				else transitionStacked();
+  							}
 
 			});
 
