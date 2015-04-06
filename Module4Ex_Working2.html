@@ -46,8 +46,8 @@
 	<body>
 
 		<form>
-  			<label><input type="radio" name="mode" value="multiples" checked> Display Best Attribute</label>
-  			<label><input type="radio" name="mode" value="stacked"> Display Worst Attribute</label>
+  			<label><input type="radio" name="mode" value="best" checked> Display Best Attribute</label>
+  			<label><input type="radio" name="mode" value="worst"> Display Worst Attribute</label>
 			</form>
 
 		<script type="text/javascript">		
@@ -100,7 +100,7 @@
 
 				heightScale.domain(data.map(function(d) { return d.Country; } ));
 
-				var rects = svg.selectAll("rect")
+			var rects = svg.selectAll("rect")
 								.data(data)
 								.enter()
 								.append("rect");
@@ -113,10 +113,7 @@
 						return widthScale(d.ScoreReversedHighGood);
 					})
 					.attr("height", heightScale.rangeBand())
-					.attr("fill", function(d) {
-						if(d.DriverBestF == "Enough to Eat") {return "red"}
-							else {return "black"}
-					;})
+					.attr("fill", "orange")
 					.attr("stroke", "black")
 					.append("title")
 					.text(function(d) {
@@ -135,9 +132,51 @@
 					.call(yAxis)
 					;
 
-					
+			d3.selectAll("input").on("change", change);
+
+var timeout = setTimeout(function() {
+  d3.select("input[value=\"best\"]").property("checked", true).each(change);
+}, 2000);
+
+function change() {
+  clearTimeout(timeout);
+  if (this.value === "best") transitionBest();
+  else transitionWorst();
+}
+
+function transitionBest() {
+  
+
+  rects.transition()
+  		.transition()
+      .duration(1000)
+      .delay(1000)
+      .attr("fill", function(d) {
+            if(d.DriverBestF == "Enough to Eat") {return "yellow"}
+              else {return "black"}
+          ;})
+      
+      
+}
+
+function transitionWorst() {
+  
+
+  rects.transition()
+  		.transition()
+      .duration(1000)
+      .delay(1000)
+      .attr("fill", function(d) {
+            if(d.DriverBestF == "Enough to Eat") {return "pink"}
+              else {return "black"}
+          ;})
+      
+      
+}	
 
 			});
+
+
 
 
 		</script>
