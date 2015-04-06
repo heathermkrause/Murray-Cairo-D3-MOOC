@@ -34,7 +34,9 @@
   				display: none;
 					}
 
-			
+		rect:hover {
+        fill: gray;
+}	
 
 		</style>
 	</head>
@@ -104,14 +106,18 @@
 					})
 					.attr("height", heightScale.rangeBand())
 					.attr("fill", function(d) {
-						if(d.DriverBestF == "Enough to Eat") {return "red"}
-							else {return "black"}
+						if(d.DriverBestF == "Enough to Eat") {return "#fbb4ae"}
+						if(d.DriverBestF == "Food Quality") {return "#b3cde3"}
+						if(d.DriverBestF == "Healthy Eating") {return "#ccebc5"}
+													else {return "black"}
 					;})
 					.attr("stroke", "black")
 					.append("title")
 					.text(function(d) {
 						return d.Country + "'s Food Index score is " + d.ScoreReversedHighGood;
 					});
+
+					
 
 				svg.append("g")
 					.attr("class", "x axis")
