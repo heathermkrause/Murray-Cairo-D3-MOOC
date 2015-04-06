@@ -103,7 +103,10 @@
 						return widthScale(d.ScoreReversedHighGood);
 					})
 					.attr("height", heightScale.rangeBand())
-					.attr("fill", "orange")
+					.attr("fill", function(d) {
+						if(d.DriverBestF == "Enough to Eat") {return "red"}
+							else {return "black"}
+					;})
 					.attr("stroke", "black")
 					.append("title")
 					.text(function(d) {
