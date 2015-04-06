@@ -33,14 +33,20 @@
 			.y.axis path {
   				display: none;
 					}
-
-		rect:hover {
-        fill: gray;
-}	
+			form {
+  				position: absolute;
+  				right: 300px;
+  				top: 50px;
+				}
 
 		</style>
 	</head>
 	<body>
+
+			<form>
+  			<label><input type="radio" name="mode" value="multiples" checked> Display Best Attribute</label>
+  			<label><input type="radio" name="mode" value="stacked"> Display Worst Attribute</label>
+			</form>
 
 		<script type="text/javascript">		
 
@@ -105,19 +111,12 @@
 						return widthScale(d.ScoreReversedHighGood);
 					})
 					.attr("height", heightScale.rangeBand())
-					.attr("fill", function(d) {
-						if(d.DriverBestF == "Enough to Eat") {return "#fbb4ae"}
-						if(d.DriverBestF == "Food Quality") {return "#b3cde3"}
-						if(d.DriverBestF == "Healthy Eating") {return "#ccebc5"}
-													else {return "black"}
-					;})
+					
 					.attr("stroke", "black")
 					.append("title")
 					.text(function(d) {
 						return d.Country + "'s Food Index score is " + d.ScoreReversedHighGood;
-					});
-
-					
+					});	
 
 				svg.append("g")
 					.attr("class", "x axis")
@@ -130,6 +129,7 @@
 					.attr("transform", "translate(" + 100 + ",0)")
 					.call(yAxis)
 					;
+
 
 			});
 
