@@ -137,7 +137,10 @@
 
 			rects
   				.transition()
-  				.attr("fill","green")
+  				.attr("fill", function(d) {
+						if(d.DriverBestF == "Enough to Eat") {return "yellow"}
+							else {return "black"}
+					;})
   				.duration(1000) 
   				.delay(1000);		
 
