@@ -149,8 +149,10 @@
     				var t = svg.transition().duration(750),
         			g = t.selectAll(".group").attr("transform", function(d) { return "translate(0," + y0(d.key) + ")"; });
     				g.selectAll("rect").attr("y", function(d) { return y1(d.value); });
-    				g.select(".group-label").attr("y", function(d) { return y1(d.values[0].value / 2); })
-  						}
+    				g.select(".group-label").attr("fill", function(d) {
+						if(d.DriverBestF == "Enough to Eat") {return "red"}
+							else {return "black"}
+					;})
 
   					function transitionStacked() {
     				var t = svg.transition().duration(750),
