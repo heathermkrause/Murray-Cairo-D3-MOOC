@@ -33,17 +33,19 @@
 			.y.axis path {
   				display: none;
 					}
+			
 			form {
   				position: absolute;
   				right: 300px;
   				top: 50px;
 				}
+			
 
 		</style>
 	</head>
 	<body>
 
-			<form>
+		<form>
   			<label><input type="radio" name="mode" value="multiples" checked> Display Best Attribute</label>
   			<label><input type="radio" name="mode" value="stacked"> Display Worst Attribute</label>
 			</form>
@@ -98,7 +100,7 @@
 
 				heightScale.domain(data.map(function(d) { return d.Country; } ));
 
-				var rects = svg.selectAll("rect")
+			var rects = svg.selectAll("rect")
 								.data(data)
 								.enter()
 								.append("rect");
@@ -111,12 +113,15 @@
 						return widthScale(d.ScoreReversedHighGood);
 					})
 					.attr("height", heightScale.rangeBand())
-					
+					.attr("fill", function(d) {
+						if(d.DriverBestF == "Enough to Eat") {return "red"}
+							else {return "black"}
+					;})
 					.attr("stroke", "black")
 					.append("title")
 					.text(function(d) {
 						return d.Country + "'s Food Index score is " + d.ScoreReversedHighGood;
-					});	
+					});
 
 				svg.append("g")
 					.attr("class", "x axis")
@@ -130,10 +135,13 @@
 					.call(yAxis)
 					;
 
+			rects
+  				.transition()
+  				.attr("fill","green")
+  				.duration(1000) 
+  				.delay(1000);		
 
-			
-
-
+			});
 
 
 		</script>
