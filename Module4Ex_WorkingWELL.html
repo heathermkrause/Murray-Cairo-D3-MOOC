@@ -9,13 +9,15 @@
 			body {
 				background-color: white;
 				font-family: Helvetica, Arial, sans-serif;
-				font-size: 8px;
+				font-size: 12px;
 			}
 
 			 .headline{
-            font-size: 18px;
+            font-size: 15px;
             color:#d95f0e;
         }	
+
+        
 			
 		.axis path,
         .axis line {
@@ -33,29 +35,46 @@
 			.y.axis path {
   				display: none;
 					}
+
+			.legend rect {
+  				fill:white;
+  				stroke:black;
+  				opacity:0.8;}
 			
 			form {
   				position: absolute;
-  				right: 300px;
+  				right: 600px;
   				top: 50px;
 				}
-			
+
+			img {
+  				position: absolute;
+  				right: 300px;
+  				top: 25px;
+				}
+
+			.hbar:hover text{
+			opacity: 1;
+		}
 
 		</style>
 	</head>
 	<body>
 
 		<form>
-  			<label><input type="radio" name="mode" value="best" checked> Display Best Attribute</label>
-  			<label><input type="radio" name="mode" value="worst"> Display Worst Attribute</label>
+  			<label><input type="radio" name="mode" value="best" checked> What's the country best at?</label>
+  			<label><input type="radio" name="mode" value="worst"> What's the country worst at?</label>
 			</form>
+
+			<img src="food legend.jpg" alt="Legend" height="50" width="285"></img>
 
 		<script type="text/javascript">		
 
 			d3.select("body")
 				.append("p")
-				.text("Global Food Index Scores by Country")
+				.text("Global Food Index Scores by Country: Where is it best to eat?")
 				.attr("class", "headline")
+
 				;
 
 
@@ -113,11 +132,11 @@
 						return widthScale(d.ScoreReversedHighGood);
 					})
 					.attr("height", heightScale.rangeBand())
-					.attr("fill", "orange")
-					.attr("stroke", "black")
+					.attr("fill", "#fec44f")
+					.attr("stroke", "#fe9929")
 					.append("title")
 					.text(function(d) {
-						return d.Country + "'s Food Index score is " + d.ScoreReversedHighGood;
+						return d.DriverBestF + " is this Country's strength";
 					});
 
 				svg.append("g")
@@ -136,7 +155,7 @@
 
 var timeout = setTimeout(function() {
   d3.select("input[value=\"best\"]").property("checked", true).each(change);
-}, 2000);
+}, 8000);
 
 function change() {
   clearTimeout(timeout);
@@ -152,12 +171,13 @@ function transitionBest() {
       .duration(1000)
       .delay(1000)
       .attr("fill", function(d) {
-            if(d.DriverBestF == "Enough to Eat") {return "yellow"}
-              else {return "black"}
+            if(d.DriverBestF == "Enough to Eat") {return "#7fbc41"}
+            	if(d.DriverBestF == "Food Quality") {return "#f1b6da"}
+              else {return "#fdb863"}
           ;})
+      .attr("stroke", "#bababa")
       
-      
-}
+      }
 
 function transitionWorst() {
   
@@ -167,9 +187,12 @@ function transitionWorst() {
       .duration(1000)
       .delay(1000)
       .attr("fill", function(d) {
-            if(d.DriverBestF == "Enough to Eat") {return "pink"}
-              else {return "black"}
+            if(d.DriverWorstF == "Not Enough to Eat") {return "#8c510a"}
+            	if(d.DriverWorstF == "Poor Food Quality") {return "#dfc27d"}
+            		if(d.DriverWorstF == "Unhealthy Eating") {return "#80cdc1"}
+              else {return "#01665e"}
           ;})
+      .attr("stroke", "#bababa")
       
       
 }	

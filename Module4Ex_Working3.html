@@ -9,13 +9,15 @@
 			body {
 				background-color: white;
 				font-family: Helvetica, Arial, sans-serif;
-				font-size: 8px;
+				font-size: 12px;
 			}
 
 			 .headline{
-            font-size: 18px;
+            font-size: 15px;
             color:#d95f0e;
         }	
+
+        
 			
 		.axis path,
         .axis line {
@@ -33,29 +35,43 @@
 			.y.axis path {
   				display: none;
 					}
+
+			.legend rect {
+  				fill:white;
+  				stroke:black;
+  				opacity:0.8;}
 			
 			form {
   				position: absolute;
-  				right: 300px;
+  				right: 600px;
   				top: 50px;
 				}
-			
+
+			img {
+  				position: absolute;
+  				right: 300px;
+  				top: 25px;
+				}
+
 
 		</style>
 	</head>
 	<body>
 
 		<form>
-  			<label><input type="radio" name="mode" value="multiples" checked> Display Best Attribute</label>
-  			<label><input type="radio" name="mode" value="stacked"> Display Worst Attribute</label>
+  			<label><input type="radio" name="mode" value="best" checked> What's the country best at?</label>
+  			<label><input type="radio" name="mode" value="worst"> What's the country worst at?</label>
 			</form>
+
+			<img src="food legend.jpg" alt="Legend" height="50" width="285"></img>
 
 		<script type="text/javascript">		
 
 			d3.select("body")
 				.append("p")
-				.text("Global Food Index Scores by Country")
+				.text("Global Food Index Scores by Country: Where is it best to eat?")
 				.attr("class", "headline")
+
 				;
 
 
@@ -100,7 +116,7 @@
 
 				heightScale.domain(data.map(function(d) { return d.Country; } ));
 
-				var rects = svg.selectAll("rect")
+			var rects = svg.selectAll("rect")
 								.data(data)
 								.enter()
 								.append("rect");
@@ -113,15 +129,9 @@
 						return widthScale(d.ScoreReversedHighGood);
 					})
 					.attr("height", heightScale.rangeBand())
-					.attr("fill", function(d) {
-						if(d.DriverBestF == "Enough to Eat") {return "red"}
-							else {return "black"}
-					;})
-					.attr("stroke", "black")
-					.append("title")
-					.text(function(d) {
-						return d.Country + "'s Food Index score is " + d.ScoreReversedHighGood;
-					});
+					.attr("fill", "#fec44f")
+					.attr("stroke", "#fe9929")
+					
 
 				svg.append("g")
 					.attr("class", "x axis")
@@ -135,9 +145,93 @@
 					.call(yAxis)
 					;
 
+			d3.selectAll("input").on("change", change);
+
+var timeout = setTimeout(function() {
+  d3.select("input[value=\"best\"]").property("checked", true).each(change);
+}, 8000);
+
+function change() {
+  clearTimeout(timeout);
+  if (this.value === "best") transitionBest();
+  else transitionWorst();
+}
+
+function transitionBest() {
+
+
+	var rects = svg.selectAll("rect")
+								.data(data)
+								.enter()
+								.append("rect");
+
+					rects.attr("x", padding[3])
+					.attr("y", function(d) {
+						return heightScale(d.Country);
+					})
+					.attr("width", function(d) {
+						return widthScale(d.ScoreReversedHighGood);
+					})
+					.attr("height", heightScale.rangeBand())
+					.attr("fill", function(d) {
+            			if(d.DriverBestF == "Enough to Eat") {return "#7fbc41"}
+            			if(d.DriverBestF == "Food Quality") {return "#f1b6da"}
+              			else {return "#fdb863"}
+         				 ;})
+      				.attr("stroke", "#bababa")
+					.append("title")
+					.text(function(d) {
+						return d.DriverBestF + " is this Country's strength";
+					});
 					
 
+				svg.append("g")
+					.attr("class", "x axis")
+					.attr("transform", "translate(" + padding[3] + "," + (h - 55) + ")")
+					.call(xAxis)
+					;
+
+				svg.append("g")
+					.attr("class", "y axis")
+					.attr("transform", "translate(" + 100 + ",0)")
+					.call(yAxis)
+					;
+  
+
+  rects.transition()
+  		.transition()
+      .duration(1000)
+      .delay(1000)
+      
+      
+      }
+
+function transitionWorst() {
+  
+
+  rects.transition()
+  		.transition()
+      .duration(1000)
+      .delay(1000)
+      .attr("fill", function(d) {
+            if(d.DriverWorstF == "Not Enough to Eat") {return "#8c510a"}
+            	if(d.DriverWorstF == "Poor Food Quality") {return "#dfc27d"}
+            		if(d.DriverWorstF == "Unhealthy Eating") {return "#80cdc1"}
+              else {return "#01665e"}
+          ;})
+      .attr("stroke", "#bababa")
+
+      rects.append("title")
+					.text(function(d) {
+						return d.WorstBestF + " is this Country's weakness";
+					});
+      
+      
+}	
+
 			});
+
+
 
 
 		</script>
