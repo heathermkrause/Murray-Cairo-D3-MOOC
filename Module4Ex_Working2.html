@@ -44,13 +44,13 @@
 			form {
   				position: absolute;
   				right: 600px;
-  				top: 50px;
+  				top: 40px;
 				}
 
 			img {
   				position: absolute;
-  				right: 300px;
-  				top: 25px;
+  				right: 460px;
+  				top: 60px;
 				}
 
 
@@ -63,7 +63,7 @@
   			<label><input type="radio" name="mode" value="worst"> What's the country worst at?</label>
 			</form>
 
-			<img src="food legend.jpg" alt="Legend" height="50" width="285"></img>
+			<img src="food legend.jpg" alt="Legend" height="30" width="485"></img>
 
 		<script type="text/javascript">		
 
@@ -131,6 +131,10 @@
 					.attr("height", heightScale.rangeBand())
 					.attr("fill", "#fec44f")
 					.attr("stroke", "#fe9929")
+					.append("title")
+					.text(function(d) {
+						return d.Country + "'s Food Index score is " + d.ScoreReversedHighGood + " and they are best at " + d.DriverBestF;
+					});
 					
 
 				svg.append("g")
@@ -172,10 +176,7 @@ function transitionBest() {
       .attr("stroke", "#bababa")
 
 
-      rects.append("title")
-					.text(function(d) {
-						return d.DriverBestF + " is this Country's strength";
-					});
+      
       
       }
 
@@ -194,10 +195,7 @@ function transitionWorst() {
           ;})
       .attr("stroke", "#bababa")
 
-      rects.append("title")
-					.text(function(d) {
-						return d.WorstBestF + " is this Country's weakness";
-					});
+      
       
       
 }	
