@@ -1,0 +1,199 @@
+<!DOCTYPE html>
+<html lang="en">
+   <head>
+      <meta charset="utf-8">
+      <title>Bar Chart (NYPD Motor Vehicle Collisions with Pedestrians)</title>
+      <script type="text/javascript" src="http://d3js.org/d3.v3.min.js"></script>
+      <style type="text/css">	
+         body {
+                background-color: white; 
+                font-family: sans-serif;
+              }
+         h1 {
+              font-size: 32px;
+              margin: 0;
+            }
+         p {
+             font-size: 20px;
+             margin: 10px 0 0 0;
+           }
+         svg {
+               background-color: white;
+             } 
+         .hbar text {
+                      opacity: 0;
+                      font-size: 10px;
+                      font-weight: 900;
+                      fill: white;
+         }
+         .hbar:hover rect {
+                            fill: black;
+         }
+         .hbar:hover text {
+                            opacity: 1;
+                            font-weight: 900;
+         } 
+         .label text {
+               font-size: 14px;
+         }
+         .axis path,
+         .axis line {
+               fill: none;
+               stroke: black; 
+               stroke-width: 1px;
+               shape-rendering: crispEdges;
+         }
+         .axis text {
+               font-size: 14px;
+         }
+         .y.axis path,
+         .y.axis line {
+                 opacity: 0;
+         }
+      </style>
+   </head>
+   <body>
+
+      <h1>Motor Vehicle Collisions in New York City</h1>
+      <p>Number of pedestrians killed and injured by Month/Year.  Source: <a href="https://data.cityofnewyork.us/Public-Safety/NYPD-Motor-Vehicle-Collisions/h9gi-nx95">NYC OpenData</a>, accessed 3/2015. </p>
+
+      <script type="text/javascript">
+         // Create Blank SVG "Pallette"
+         var ww=750.0; 
+         var hh=600.0;       
+         var svg=d3.select("body").append("svg").attr("width",ww).attr("height",hh);
+	
+         // Create Scales and Set Spaces
+         var spc=40,
+             pad_top=5,
+             pad_bottom=50,
+             pad_right=20,
+             pad_left=20,
+             pad_yaxis=10;
+         var widthScaleInjured=d3.scale.linear();
+         var widthScaleKilled=d3.scale.linear();
+         var heightScale=d3.scale.ordinal()
+                                 .rangeRoundBands([pad_top,hh-pad_bottom],0.2);
+         var xAxisInjured=d3.svg.axis()
+                                .scale(widthScaleInjured)
+                                .orient("bottom")
+                                .ticks(7);
+         var yAxis=d3.svg.axis()
+                         .scale(heightScale)
+                         .orient("right");
+         // Icky Way of Doing X Axis for Killed Data 
+         var xAxisKilledScale=d3.scale.linear(); //.range([h,0]);
+         var xAxisKilled=d3.svg.axis().scale(xAxisKilledScale).orient("bottom").ticks(4);
+
+
+         // Load CSV File
+         d3.csv("Clean_NYPD_Collisions.csv", function(error,data) {
+            // Try to Load Data
+            if (error) 
+            { 
+              console.log(error);
+            } 
+            else 
+            {
+              console.log(data);
+            }
+            // If Successful, Process Data And Run Related Functions
+
+            // Bars for Number Injured (Have to group rect and text to allow for text hover feature)
+            var hbars=svg.selectAll("g[id='injured']").data(data).enter().append("g").attr("class","hbar").attr("id","injured");
+            var xpos=(ww/2.0)+spc;
+            widthScaleInjured.range([0,ww-xpos-pad_right])
+                             .domain([0,d3.max(data,function(d){
+                                                      return +d.Ninjured;
+                                                    })]);
+            heightScale.domain(data.map(function(d) { return d.Month+'/'+d.Year; } ));
+            hbars.append("rect")
+                 .attr("x",xpos)
+                 .attr("y",function(d)
+                           {
+                             return heightScale(d.Month+'/'+d.Year);
+                           })
+                 .attr("width",function(d){
+                                  return widthScaleInjured(+d.Ninjured);
+                               })
+                 .attr("height",heightScale.rangeBand())
+                 .attr("fill","rgb(255,149,0)");
+            hbars.append("text")
+                 .attr("x",xpos+5)
+                 .attr("y",function(d)
+                           {
+                             return heightScale(d.Month+'/'+d.Year)+heightScale.rangeBand()*0.8;
+                           })
+                 .text(function(d)
+                           {
+                             return d.Ninjured;
+                           });       
+
+            // Bars for Number Killed
+            var hbars2=svg.selectAll("g[id='killed']").data(data).enter().append("g").attr("class","hbar").attr("id","killed");
+            var xbase=(ww/2.0)-spc;
+            widthScaleKilled.range([0,xbase-pad_left])
+                            .domain([0,d3.max(data,function(d){
+                                                      return +d.Nkilled;
+                                                    })]);
+            xAxisKilledScale.range([xbase-pad_left,0])
+                            .domain([0,d3.max(data,function(d){
+                                                      return +d.Nkilled;
+                                                    })]);
+            hbars2.append("rect")
+                  .attr("x",function(d)
+                            {
+                               return xbase-widthScaleKilled(+d.Nkilled)
+                            })
+                  .attr("y",function(d)
+                            {
+                              return heightScale(d.Month+'/'+d.Year);
+                            })
+                  .attr("width",function(d){
+                                   return widthScaleKilled(+d.Nkilled);
+                                })
+                  .attr("height",heightScale.rangeBand())
+                  .attr("fill","rgb(255,0,0)");
+            hbars2.append("text")
+                  .attr("x",xbase-5)
+                  .attr("y",function(d)
+                            {
+                              return heightScale(d.Month+'/'+d.Year)+heightScale.rangeBand()*0.8;
+                            })
+                  .attr("text-anchor","end")
+                  .text(function(d)
+                            {
+                              return d.Nkilled;
+                            });   
+
+
+            // Labels
+            svg.append("g")
+               .attr("class","x axis")
+               .attr("transform","translate("+xpos+","+(hh-pad_bottom)+")")
+               .call(xAxisInjured);
+            svg.append("text")
+               .attr("x",xpos)
+               .attr("y",hh-pad_yaxis)
+               .attr("class","label")
+               .attr("text-anchor","start")
+               .text("Number of Pedestrians Injured");
+            svg.append("g")
+               .attr("class","x axis")
+               .attr("transform","translate("+pad_left+","+(hh-pad_bottom)+")")
+               .call(xAxisKilled);
+            svg.append("text")
+               .attr("x",xbase)
+               .attr("y",hh-pad_yaxis)
+               .attr("class","label")
+               .attr("text-anchor","end")
+               .text("Number of Pedestrians Killed");
+            svg.append("g")
+               .attr("class","y axis")
+               .attr("transform","translate("+xbase+",0)")
+               .call(yAxis);
+
+         });
+      </script>
+   </body>
+</html>

@@ -1,0 +1,194 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>Knight Course Exercise 4</title>
+	<script src="http://d3js.org/d3.v3.min.js" charset="utf-8"></script>
+	<style>
+		body{
+			padding-left: 25px;
+			margin-top: 15px;
+			font-family: Helvetica, Arial, sans-serif;
+		}
+	
+		.axis path, .axis line{
+			fill:none;
+			stroke:black;
+		}
+
+
+		text {
+			font-family: Helvetica, Arial, sans-serif;
+			font-size:11px;
+		}
+
+		.y path, .y line{
+			opacity: 0;
+		}
+
+		.hbar{
+			-webkit-transition: .5s all ease;
+			-o-transition: .5s all ease;
+			transition: .5s all ease;
+		}
+
+		.hbar text{
+			opacity: 0;
+			font-weight: bold;
+		}
+
+		.hbar:hover rect {
+			fill:steelblue;
+		}
+
+		.hbar:hover text{
+			opacity: 1;
+		}
+
+	</style>
+</head>
+<body>
+
+	<h2>Labor Force Participation Rate of Women in 2013</h2>
+	
+	
+	<script>
+		window.onload = function(){
+			var w = 800;
+			var h = 650;
+			var svg = d3.select("body")
+					.append("svg")
+					.attr("width",w)
+					.attr("height",h);
+			var padding = {
+				"top": 10,
+				"right": 80,
+				"bottom": 40,
+				"left": 180
+			}
+
+			d3.csv("./women-employment.csv",function(data){
+				console.log(data);
+
+				data.sort(function(a,b){
+					return d3.descending(a["2013"],b["2013"]);
+				})
+
+				var xMax = d3.max(data,function(d){
+					return Number(d["2013"]);
+				})
+
+				var xScale = d3.scale.linear()
+							.domain([0,xMax])
+							.range([0,w-padding["left"]-padding["right"]]);
+
+				var yScale = d3.scale.ordinal()
+							.domain(data.map(function(d){
+								return d.Country;
+							}))
+							.rangeRoundBands([padding.top,h-padding.bottom],0.1)
+
+
+				var xAxis = d3.svg.axis()
+							.scale(xScale)
+							.orient("bottom")
+							.ticks(5);
+
+				var yAxis = d3.svg.axis()
+							.scale(yScale)
+							.orient("left");
+
+				var bar = svg.selectAll("g")
+							.data(data)
+							.enter()
+							.append("g")
+							.attr("transform", function(d){
+								return "translate(0," + yScale(d.Country)-10 + ")"
+							})
+							.attr("class","hbar")
+
+				bar.append("rect")
+				.attr({
+					"x":padding.left,
+					"y":function(d,i){
+						return yScale(d.Country);
+					},
+					"width":function(d){
+						return xScale(d["2013"]);
+					},
+					"height":yScale.rangeBand(),
+					"class":"bars",
+					"fill":function(d,i){
+						return "hsl(" + d["2013"] + ",100%,50%)";
+					}
+				})
+
+				bar.append("text")
+				.attr({
+					"x":function(d){
+						return xScale(d["2013"])+ padding.left+2;
+					},
+					"y":function(d,i){
+						return yScale(d.Country)+12;
+					}
+				})
+				.text(function(d){
+					return d["2013"];
+				});
+
+
+				//add axis
+				svg.append("g")
+					.attr("class","x axis")
+					.attr("transform","translate("+padding.left+","+(h-padding.bottom) + ")")
+					.call(xAxis);
+
+				svg.append("g")
+					.attr("class", "y axis")
+					.attr("transform", "translate(" + padding.left + ",0)")
+					.call(yAxis);
+
+
+				// rects.attr({
+				// 	"x":padding.left,
+				// 	"y":function(d,i){
+				// 		return yScale(d.Country);
+				// 	},
+				// 	"width":function(d){
+				// 		return xScale(d["2013"]);
+				// 	},
+				// 	"height":yScale.rangeBand(),
+				// 	"class":"bars",
+				// 	"fill":function(d,i){
+				// 		return "hsl(" + d["2013"] + ",100%,50%)";
+				// 	}
+				// })
+
+				//text for each bar
+				// svg.selectAll("text")
+				// 	.data(data)
+				// 	.enter()
+				// 	.append("text")
+				// 	.text(function(d){
+				// 		return d["2013"];
+				// 	})
+				// 	.attr({
+				// 		"x":function(d){
+				// 			return xScale(d["2013"])+padding.left+5;
+				// 		},
+				// 		"y":function(d){
+				// 			return yScale(d.Country)+padding.top+2;
+				// 		},
+				// 		"class":"barText"
+				// 	})
+
+
+			})
+
+
+		};
+	</script>
+
+ 
+</body>
+</html>

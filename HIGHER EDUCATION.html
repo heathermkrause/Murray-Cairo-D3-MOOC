@@ -1,0 +1,108 @@
+<!DOCTYPE html>
+<html lang="en">
+	<head>
+		<meta charset="utf-8">
+		<title>OECD Government Spending on Higher Education</title>
+		<script type="text/javascript" src="http://d3js.org/d3.v3.js"></script>
+		<link rel="stylesheet" type="text/css" href="chartStyle.css">
+	</head>
+	<body>
+		<div id="container">
+		<div id="header">
+		<h1 class="left">TOTAL GOVERNMENT EXPENDITURE ON HIGHER EDUCATION</h1>
+		<h2 class="left">A ranking of OECD member countries (including Russia) by total government expenditure</br>(at all levels) in U.S. Dollars in 2011.</h2>
+		</div>
+		<div id = "wrapper">
+		<div id="leftdiv">
+		<script type="text/javascript">		
+		
+			var w = 740;
+			var h = 600;
+			var padding = [ 20, 10, 30, 120 ];  //Top, right, bottom, left
+
+
+
+			var widthScale = d3.scale.linear()
+								.range([ 0, w - padding[1] - padding[3] ]);
+			
+			var heightScale = d3.scale.ordinal()
+								.rangeRoundBands([ padding[0], h - padding[2] ], 0.1);
+
+
+
+			var xAxis = d3.svg.axis()
+							.scale(widthScale)
+							.orient("bottom");
+
+			var yAxis = d3.svg.axis()
+							.scale(heightScale)
+							.orient("left");
+
+
+
+			var svg = d3.select("#leftdiv")
+						.append("svg")
+						.attr("width", w)
+						.attr("height", h);
+
+
+
+			d3.csv("index.csv", function(data) {
+
+				data.sort(function(a, b) {
+					return d3.descending(+a.govExpend, +b.govExpend);
+				});
+
+				widthScale.domain([ 0, d3.max(data, function(d) {
+					return +d.govExpend;
+				}) ]);
+
+				heightScale.domain(data.map(function(d) { return d.country; } ));
+
+				var rects = svg.selectAll("rect")
+								.data(data)
+								.enter()
+								.append("rect");
+
+				rects.attr("x", padding[3])
+					.attr("y", function(d) {
+						return heightScale(d.country);
+					})
+					.attr("width", function(d) {
+						return widthScale(d.govExpend);
+					})
+					.attr("height", heightScale.rangeBand())
+					.append("title")
+					.text(function(d) {
+						return d.country + "'s total gov Spend is $" + d.govExpend + "m";
+					});
+
+				svg.append("g")
+					.attr("class", "x axis")
+					.attr("transform", "translate(" + padding[3] + "," + (h - padding[2]) + ")")
+					.call(xAxis);
+
+				svg.append("g")
+					.attr("class", "y axis")
+					.attr("transform", "translate(" + padding[3] + ",0)")
+					.call(yAxis);
+
+			});
+	
+		</script>
+		</div>
+		<div id="rightdiv">
+		<p class="left"></br><b>Data source(s) used:</b></br>
+		UNESCO-OECD-Eurostat (UOE) data collection on education statistics, compiled on the basis of national administrative sources, reported by Ministries of Education or National Statistical Offices.</p>
+		</br><p><b>Key Statistical Concept:</b></br>
+		Countries report expenditures by sources of funds: Governement (central, regional, local); International agencies and other foreign sources; Households and Other private entities (including firms and religious institutions and other non-profit organisations). Three types of financial transactions can be distinguished: -direct expenditure/payments on educational institutions -Intergovernmental transfers for education -Transfers to students or households and to other private entities.</p>
+		</br><p><b>Other Aspects:</b></br>
+		Financial year is in general identical to the calendar year and thus running from 1st of January to 31st of December, with some exceptions for Canada, Japan and the United Kingdom where the financial year is running from 1st of April to 31st of March and for the United States where the financial year is running from 1st of July to 30th of June.</p>
+		</div>
+		<div id="source">
+		<p>SOURCE: <a href="http://stats.oecd.org/Index.aspx?DataSetCode=RFIN1">OECD</a>, 2015</p>.</p>
+		</div>
+		</div>
+		</div>
+	</body>
+</html>
