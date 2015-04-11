@@ -36,22 +36,31 @@
   				display: none;
 					}
 
-			.legend rect {
-  				fill:white;
-  				stroke:black;
-  				opacity:0.8;}
+			.legend { list-style: none; }
+				.legend li { float: left; margin-right: 0px; }
+				.legend span { border: 1px solid #ccc; float: left; width: 9px; height: 9px; margin: 2px; }
+				.legend .enoughtoeat { background-color: #7fbc41; }
+				.legend .foodquality { background-color: #f1b6da; }
+				.legend .healthyeating { background-color: #005824; }
+				.legend .notenough { background-color: #8c510a; }
+				.legend .foodafford { background-color: #253494; }
+				.legend .poorquality { background-color: #dfc27d; }
+				.legend .unhealthy { background-color: #80cdc1; }
+
+			ul{
+  				position: absolute;
+  				right: 190px;
+  				top: 60px;
+  				width: 800px;
+				}
 			
 			form {
   				position: absolute;
-  				right: 600px;
+  				right: 650px;
   				top: 40px;
 				}
 
-			img {
-  				position: absolute;
-  				right: 460px;
-  				top: 60px;
-				}
+			
 
 
 		</style>
@@ -63,7 +72,16 @@
   			<label><input type="radio" name="mode" value="worst"> What's the country worst at?</label>
 			</form>
 
-			<img src="food legend.jpg" alt="Legend" height="30" width="485"></img>
+			<ul class="legend">
+    		<li><span class="enoughtoeat"></span> Enough to Eat</li>
+    		<li><span class="foodquality"></span> Quality Food</li>
+    		<li><span class="healthyeating"></span> Healthy Eating</li>
+    		<li><span class="notenough"></span> Not Enough Food</li>
+    		<li><span class="foodafford"></span> Unaffordable Food</li>
+    		<li><span class="poorquality"></span> Poor Quality Food</li>
+    		<li><span class="unhealthy"></span> Unhealthy Eating</li>
+			</ul>
+
 
 		<script type="text/javascript">		
 
@@ -76,7 +94,7 @@
 
 
 			var w = 700;
-			var h = 1600;
+			var h = 1750;
 			var padding = [ 5, 10, 20, 100];  //Top, right, bottom, left
 
 			
@@ -171,7 +189,7 @@ function transitionBest() {
       .attr("fill", function(d) {
             if(d.DriverBestF == "Enough to Eat") {return "#7fbc41"}
             	if(d.DriverBestF == "Food Quality") {return "#f1b6da"}
-              else {return "#fdb863"}
+              else {return "#005824"}
           ;})
       .attr("stroke", "#bababa")
 
@@ -191,7 +209,7 @@ function transitionWorst() {
             if(d.DriverWorstF == "Not Enough to Eat") {return "#8c510a"}
             	if(d.DriverWorstF == "Poor Food Quality") {return "#dfc27d"}
             		if(d.DriverWorstF == "Unhealthy Eating") {return "#80cdc1"}
-              else {return "#01665e"}
+              else {return "#253494"}
           ;})
       .attr("stroke", "#bababa")
 
