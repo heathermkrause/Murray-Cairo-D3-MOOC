@@ -56,14 +56,19 @@
 			var h = 400;
 			var padding = [ 20, 10, 50, 50 ];  //Top, right, bottom, left
 
-
+			var padding2 = [ 20, 10, 50, 50  ];
 
 			var xScale = d3.scale.linear()
 								.range([ padding[3], w - padding[1] - padding[3] ]);
 			
+			var yScale2 = d3.scale.linear()
+								.range([ padding2[0], h - padding2[2] ]);
+
+			var xScale2 = d3.scale.linear()
+								.range([ padding2[3], w - padding2[1] - padding2[3] ]);
+			
 			var yScale = d3.scale.linear()
 								.range([ padding[0], h - padding[2] ]);
-
 
 
 			var xAxis = d3.svg.axis()
@@ -76,6 +81,21 @@
 
 			var yAxis = d3.svg.axis()
 							.scale(yScale)
+							.orient("left")
+							.tickFormat(function(d) {
+								return d + "%";
+							});
+
+			var xAxis2 = d3.svg.axis()
+							.scale(xScale2)
+							.orient("bottom")
+							.ticks(10)
+							.tickFormat(function(d) {
+								return d + "%";
+							});
+
+			var yAxis2 = d3.svg.axis()
+							.scale(yScale2)
 							.orient("left")
 							.tickFormat(function(d) {
 								return d + "%";
@@ -141,6 +161,70 @@
 					.attr("class", "y axis")
 					.attr("transform", "translate(" + (padding[3] - 10) + ",0)")
 					.call(yAxis);
+
+
+});
+
+
+
+			var svg2 = d3.select("body")
+						.append("svg")
+						.attr("width", w)
+						.attr("height", h);
+
+
+
+			d3.csv("VAWAttitudeUNICEFBoth Sexes2.csv", function(data) {
+
+				xScale2.domain([ 
+					d3.min(data, function(d) {
+						return +d.WomPoorest;
+					}), 
+					100
+				]);
+
+				yScale2.domain([
+					100,
+					d3.min(data, function(d) {
+						return +d.WomRichest;
+					})
+				]);
+
+				var circles = svg2.selectAll("circle")
+								.data(data)
+								.enter()
+								.append("circle");
+
+				circles.attr("cx", function(d) {
+					if (d.WomPoorest=== "NA") {
+						return 50;
+					} else {
+						return xScale2(d.WomPoorest);
+					}
+					})
+					.attr("cy", function(d) {
+						return yScale2(d.WomRichest);
+					})
+					.attr("r", 5)
+					.attr("fill", "#810f7c")
+					.append("title")
+					.text(function(d) {
+						if(d.WomPoorest === "NA") {
+							return "In " + d.Country + ", men's opinion is missing and " + d.WomRichest + "% of women accept domestic violence";
+						} else {
+						return "In " + d.Country + ", " + d.WomPoorest + "% of the poorest women and " + d.WomRichest + "% of the wealthiest women accept domestic violence";
+					}
+					});
+
+				svg2.append("g")
+					.attr("class", "x axis")
+					.attr("transform", "translate(0," + (h - padding2[2] + 10) + ")")
+					.call(xAxis2);
+
+				svg2.append("g")
+					.attr("class", "y axis")
+					.attr("transform", "translate(" + (padding2[3] - 10) + ",0)")
+					.call(yAxis2);
 
 			});
 
