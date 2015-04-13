@@ -69,11 +69,17 @@
 			var xAxis = d3.svg.axis()
 							.scale(xScale)
 							.orient("bottom")
-							.ticks(10);
+							.ticks(10)
+							.tickFormat(function(d) {
+								return d + "%";
+							});
 
 			var yAxis = d3.svg.axis()
 							.scale(yScale)
-							.orient("left");
+							.orient("left")
+							.tickFormat(function(d) {
+								return d + "%";
+							});
 
 
 
