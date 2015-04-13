@@ -121,7 +121,11 @@
 					.attr("fill", "steelblue")
 					.append("title")
 					.text(function(d) {
+						if(d.MenTotal === "NA") {
+							return "In " + d.Country + ", men's opinion is migging and " + d.WomenTot + "% of women accept domestic violence";
+						} else {
 						return "In " + d.Country + ", " + d.MenTotal + "% of men and " + d.WomenTot + "% of women accept domestic violence";
+					}
 					});
 
 				svg.append("g")
