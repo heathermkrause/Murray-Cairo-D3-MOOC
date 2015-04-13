@@ -26,7 +26,7 @@
 			}
 
 			circle:hover {
-				fill: orange;
+				fill: #8c96c6;
 			}
 			
 			.axis path,
@@ -52,9 +52,9 @@
 		<script type="text/javascript">		
 
 
-			var w = 700;
-			var h = 600;
-			var padding = [ 20, 10, 50, 100 ];  //Top, right, bottom, left
+			var w = 400;
+			var h = 400;
+			var padding = [ 20, 10, 50, 50 ];  //Top, right, bottom, left
 
 
 
@@ -113,7 +113,7 @@
 
 				circles.attr("cx", function(d) {
 					if (d.MenTotal === "NA") {
-						return 20;
+						return 50;
 					} else {
 						return xScale(d.MenTotal);
 					}
@@ -121,8 +121,8 @@
 					.attr("cy", function(d) {
 						return yScale(d.WomenTot);
 					})
-					.attr("r", 4)
-					.attr("fill", "steelblue")
+					.attr("r", 5)
+					.attr("fill", "#810f7c")
 					.append("title")
 					.text(function(d) {
 						if(d.MenTotal === "NA") {
