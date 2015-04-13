@@ -59,9 +59,11 @@
 
 		<p>This data is compiled from individual surveys conducted by the UN, UNICEF and USAID through several projects.   Sources: <a href="http://www.dhsprogram.com/">DHS</a>, 2000-2014  <a href="http://www.unicef.org/statistics/index_24302.html">MICS</a>, 2006-2014</p>
 
-		<p>It appears from the scatterplot on the left that in most countries more women than men say they find domestic violence acceptable.  It appears from the scatterplot on the right that more of the poorest women find domestic violence acceptable than the wealthiest women.</p>
+		<p>It appears from the scatterplot on the left that in most countries more women than men say they find domestic violence acceptable.</p>
 
-		<p>The lack of data from North American and European countries can imply that people in these countries do not accept domestic violence.  But this is not likely to be an accurate assumption - simply that the data is not being collected.  I am working on a project to change this lack of data.</p>
+		<p>It appears from the scatterplot on the right that more of the poorest women find domestic violence acceptable than the wealthiest women.</p>
+
+		<p>The lack of data from North American and European countries could be thought to imply that people in these countries do not accept domestic violence.  But this is not likely to be an accurate assumption - simply that the data is not being collected.  I am working on a project to change this lack of data.</p>
 
 		<script type="text/javascript">		
 
@@ -172,7 +174,7 @@
 					})
 					.transition()
 					.delay(function(d, i) {
-						return i * 50;
+						return i * 75;
 					})
 					.duration(2000)
 					.attr("r", 5);
@@ -211,7 +213,8 @@
 			var svg2 = d3.select("body")
 						.append("svg")
 						.attr("width", w)
-						.attr("height", h);
+						.attr("height", h)
+						;
 
 
 
@@ -232,6 +235,7 @@
 				]);
 
 				var circles = svg2.selectAll("circle")
+
 								.data(data)
 								.enter()
 								.append("circle");
@@ -247,7 +251,7 @@
 						return yScale2(d.WomRichest);
 					})
 					.attr("r", 0.1)
-					.attr("fill", "#006d2c")
+					.attr("fill", "#2ca25f")
 					.append("title")
 					.text(function(d) {
 						if(d.WomPoorest === "NA") {
@@ -263,17 +267,22 @@
 					})
 					.transition()
 					.delay(function(d, i) {
-						return 6000+ i * 500;
+						return 7000+ i * 175;
 					})
 					.duration(2000)
 					.attr("r", 5);
 
 				svg2.append("g")
 					.attr("class", "x axis")
+					.transition()
+						.delay(7000)
 					.attr("transform", "translate(0," + (h - padding2[2] + 10) + ")")
-					.call(xAxis2);
+					.call(xAxis2)
+					;
 
 					svg2.append("text")
+					.transition()
+						.delay(7000)
     				.attr("class", "xlabel")
     				.attr("text-anchor", "end")
     				.attr("x", w/2 + 35)
@@ -282,10 +291,14 @@
 
 				svg2.append("g")
 					.attr("class", "y axis")
+					.transition()
+						.delay(7000)
 					.attr("transform", "translate(" + (padding2[3] - 10) + ",0)")
 					.call(yAxis2);
 
 					svg2.append("text")
+					.transition()
+						.delay(7000)
     				.attr("class", "ylabel")
     				.attr("text-anchor", "end")
     				.attr("y", 3)
