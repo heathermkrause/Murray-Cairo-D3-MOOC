@@ -12,12 +12,12 @@
 			}
 
 			h1 {
-				font-size: 24px;
-				margin: 0;
+				font-size: 18px;
+				margin: 50;
 			}
 
 			p {
-				font-size: 14px;
+				font-size: 10px;
 				margin: 10px 0 0 0;
 			}
 
@@ -38,14 +38,14 @@
 			
 			.axis text {
 				font-family: sans-serif;
-				font-size: 11px;
+				font-size: 9px;
 			}
 
 		</style>
 	</head>
 	<body>
 
-		<h1>Feeling that Domestic Violence is Acceptable</h1>
+		<h1>Women and Men who feel that Domestic Violence is Acceptable</h1>
 
 		<p>This data is compiled from individual surveys conducted by the UN, UNICEF and USAID through several projects.   Sources: <a href="http://www.dhsprogram.com/">DHS</a>, 2000-2014  <a href="http://www.unicef.org/statistics/index_24302.html">MICS</a>, 2006-2014</p>
 
@@ -121,7 +121,7 @@
 					.attr("fill", "steelblue")
 					.append("title")
 					.text(function(d) {
-						return "In " + d.Country + " " + d.MenTotal + "% of men and " + d.WomenTot + "% of women accept domestic violence";
+						return "In " + d.Country + ", " + d.MenTotal + "% of men and " + d.WomenTot + "% of women accept domestic violence";
 					});
 
 				svg.append("g")
