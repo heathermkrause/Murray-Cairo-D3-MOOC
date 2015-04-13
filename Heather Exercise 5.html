@@ -68,7 +68,8 @@
 
 			var xAxis = d3.svg.axis()
 							.scale(xScale)
-							.orient("bottom");
+							.orient("bottom")
+							.ticks(10);
 
 			var yAxis = d3.svg.axis()
 							.scale(yScale)
@@ -89,9 +90,7 @@
 					d3.min(data, function(d) {
 						return +d.MenTotal;
 					}), 
-					d3.max(data, function(d) {
-						return +d.MenTotal;
-					})
+					100
 				]);
 
 				yScale.domain([
@@ -118,7 +117,7 @@
 					.attr("fill", "steelblue")
 					.append("title")
 					.text(function(d) {
-						return "In " + d.Country + " " + d.MenTotal + "% of men and " + d.WomenTot + "% of women accept VAW";
+						return "In " + d.Country + " " + d.MenTotal + "% of men and " + d.WomenTot + "% of women accept domestic violence";
 					});
 
 				svg.append("g")
