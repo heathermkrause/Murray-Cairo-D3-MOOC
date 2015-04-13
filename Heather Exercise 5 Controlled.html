@@ -41,6 +41,16 @@
 				font-size: 9px;
 			}
 
+			.xlabel{
+				font-family: sans-serif;
+				font-size: 9px;
+			}
+
+			.ylabel{
+				font-family: sans-serif;
+				font-size: 9px;
+			}
+
 		</style>
 	</head>
 	<body>
@@ -54,7 +64,7 @@
 
 			var w = 400;
 			var h = 400;
-			var padding = [ 20, 10, 50, 50 ];  //Top, right, bottom, left
+			var padding = [ 20, 10, 50, 55 ];  //Top, right, bottom, left
 
 			var padding2 = [ 20, 10, 50, 50  ];
 
@@ -74,7 +84,7 @@
 			var xAxis = d3.svg.axis()
 							.scale(xScale)
 							.orient("bottom")
-							.ticks(10)
+							.ticks(11)
 							.tickFormat(function(d) {
 								return d + "%";
 							});
@@ -82,6 +92,7 @@
 			var yAxis = d3.svg.axis()
 							.scale(yScale)
 							.orient("left")
+							.ticks(10)
 							.tickFormat(function(d) {
 								return d + "%";
 							});
@@ -157,10 +168,26 @@
 					.attr("transform", "translate(0," + (h - padding[2] + 10) + ")")
 					.call(xAxis);
 
+				svg.append("text")
+    				.attr("class", "xlabel")
+    				.attr("text-anchor", "end")
+    				.attr("x", w/2)
+    				.attr("y", h - 6)
+    				.text("Men");
+
 				svg.append("g")
 					.attr("class", "y axis")
 					.attr("transform", "translate(" + (padding[3] - 10) + ",0)")
 					.call(yAxis);
+
+				svg.append("text")
+    				.attr("class", "ylabel")
+    				.attr("text-anchor", "end")
+    				.attr("y", 3)
+    				.attr("x", -130)
+    				.attr("dy", ".75em")
+    				.attr("transform", "rotate(-90)")
+    				.text("Women");
 
 
 });
@@ -206,7 +233,7 @@
 						return yScale2(d.WomRichest);
 					})
 					.attr("r", 5)
-					.attr("fill", "#810f7c")
+					.attr("fill", "#006d2c")
 					.append("title")
 					.text(function(d) {
 						if(d.WomPoorest === "NA") {
@@ -221,10 +248,26 @@
 					.attr("transform", "translate(0," + (h - padding2[2] + 10) + ")")
 					.call(xAxis2);
 
+					svg2.append("text")
+    				.attr("class", "xlabel")
+    				.attr("text-anchor", "end")
+    				.attr("x", w/2 + 35)
+    				.attr("y", h - 6)
+    				.text("Poorest Women");
+
 				svg2.append("g")
 					.attr("class", "y axis")
 					.attr("transform", "translate(" + (padding2[3] - 10) + ",0)")
 					.call(yAxis2);
+
+					svg2.append("text")
+    				.attr("class", "ylabel")
+    				.attr("text-anchor", "end")
+    				.attr("y", 3)
+    				.attr("x", -130)
+    				.attr("dy", ".75em")
+    				.attr("transform", "rotate(-90)")
+    				.text("Wealthiest Women");
 
 			});
 
