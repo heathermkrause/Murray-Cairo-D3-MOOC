@@ -45,9 +45,9 @@
 	</head>
 	<body>
 
-		<h1>Life Satisfaction</h1>
+		<h1>Feeling that Domestic Violence is Acceptable</h1>
 
-		<p>Better Life Index &ldquo;Life Satisfaction&rdquo; scores vs. percentage of population reporting good or better health. Source: <a href="http://stats.oecd.org/Index.aspx?DataSetCode=BLI">OECD</a>, 2014</p>
+		<p>This data is compiled from individual surveys conducted by the UN, UNICEF and USAID through several projects.   Sources: <a href="http://www.dhsprogram.com/">DHS</a>, 2000-2014  <a href="http://www.unicef.org/statistics/index_24302.html">MICS</a>, 2006-2014</p>
 
 		<script type="text/javascript">		
 
@@ -118,7 +118,7 @@
 					.attr("fill", "steelblue")
 					.append("title")
 					.text(function(d) {
-						return d.Country + " has " + d.MenTotal + "% of men who accept VAW and " + d.WomenTot + "% of women accept";
+						return "In " + d.Country + " " + d.MenTotal + "% of men and " + d.WomenTot + "% of women accept VAW";
 					});
 
 				svg.append("g")
