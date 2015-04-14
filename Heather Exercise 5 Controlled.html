@@ -73,7 +73,7 @@
 			var h = 400;
 			var padding = [ 20, 10, 50, 55 ];  //Top, right, bottom, left
 
-			var padding2 = [ 20, 10, 50, 50  ];
+			var padding2 = [ 20, 10, 50, 55  ];
 
 			var xScale = d3.scale.linear()
 								.range([ padding[3], w - padding[1] - padding[3] ]);
@@ -189,9 +189,9 @@
 				svg.append("text")
     				.attr("class", "xlabel")
     				.attr("text-anchor", "end")
-    				.attr("x", w/2)
+    				.attr("x", w/2+ 115)
     				.attr("y", h - 6)
-    				.text("Men");
+    				.text("Percent of Men who say domestic violence is acceptable");
 
 				svg.append("g")
 					.attr("class", "y axis")
@@ -202,10 +202,10 @@
     				.attr("class", "ylabel")
     				.attr("text-anchor", "end")
     				.attr("y", 3)
-    				.attr("x", -130)
+    				.attr("x", -45)
     				.attr("dy", ".75em")
     				.attr("transform", "rotate(-90)")
-    				.text("Women");
+    				.text("Percent of Women who say domestic violence is acceptable");
 
 
 });
@@ -289,9 +289,9 @@
 						.delay(7000)
     				.attr("class", "xlabel")
     				.attr("text-anchor", "end")
-    				.attr("x", w/2 + 35)
+    				.attr("x", w/2 + 155)
     				.attr("y", h - 6)
-    				.text("Poorest Women");
+    				.text("Percent of Country's Poorest Women who say domestic violence is acceptable");
 
 				svg2.append("g")
 					.attr("class", "y axis")
@@ -306,11 +306,11 @@
 						.delay(7000)
     				.attr("class", "ylabel")
     				.attr("text-anchor", "end")
-    				.attr("y", 3)
-    				.attr("x", -130)
+    				.attr("y", 1)
+    				.attr("x", -25)
     				.attr("dy", ".75em")
     				.attr("transform", "rotate(-90)")
-    				.text("Wealthiest Women");
+    				.text("Percent of Country's Wealthiest Women who say domestic violence is acceptable");
 
 			});
 
