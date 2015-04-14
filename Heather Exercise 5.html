@@ -18,7 +18,7 @@
 
 			p {
 				font-size: 10px;
-				margin: 10px 0 0 0;
+				margin: 12px 0 0 0;
 				stroke: red;
 			}
 
@@ -60,11 +60,11 @@
 
 		<p>This data is compiled from individual surveys conducted by the UN, UNICEF and USAID through several projects.   Sources: <a href="http://www.dhsprogram.com/">DHS</a>, 2000-2014  <a href="http://www.unicef.org/statistics/index_24302.html">MICS</a>, 2006-2014</p>
 
-		<p style="color:purple">It appears from the scatterplot on the left that in most countries more women than men say they find domestic violence acceptable.</p>
+		<p>It appears from the scatterplot on the left that in most countries more women than men say they find domestic violence acceptable.</p>
 
-		<p style="color:green">It appears from the scatterplot on the right that more of the poorest women find domestic violence acceptable than the wealthiest women.</p>
+		<p>It appears from the scatterplot on the right that more of the poorest women find domestic violence acceptable than the wealthiest women.</p>
 
-		<p>The lack of data from North American and European countries could be thought to imply that people in these countries do not accept domestic violence.  But this is not likely to be an accurate assumption - simply that the data is not being collected.  I am working on a project to change this lack of data.</p>
+		<p>The lack of data from North American and European countries could be thought to imply that people in these countries do not accept domestic violence.</p>  <p>But this is not likely to be an accurate assumption - simply that the data is not being collected.  I am working on a project to change this lack of data.</p>
 
 		<script type="text/javascript">		
 
@@ -160,7 +160,7 @@
 						return yScale(d.WomenTot);
 					})
 					.attr("r", 0,1)
-					.attr("fill", "#810f7c")
+					.attr("fill", "#a50f15")
 					.append("title")
 					.text(function(d) {
 						if(d.MenTotal === "NA") {
@@ -197,7 +197,7 @@
     				.attr("class", "xlabel")
     				.attr("text-anchor", "end")
     				.attr("x", -370)
-    				.attr("y", 55)
+    				.attr("y", 50)
     				.attr("transform", function(d) {
          					return "rotate(-90)" 
      						})
@@ -263,7 +263,7 @@
 						return yScale2(d.WomRichest);
 					})
 					.attr("r", 0.1)
-					.attr("fill", "#2ca25f")
+					.attr("fill", "#810f7c")
 					.append("title")
 					.text(function(d) {
 						if(d.WomPoorest === "NA") {
